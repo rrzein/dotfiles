@@ -1,4 +1,5 @@
 alias vim="mvim -v"
+alias j="jobs"
 
 [[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
 
