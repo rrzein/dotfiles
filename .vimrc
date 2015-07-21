@@ -20,8 +20,8 @@ Plugin 'scrooloose/syntastic'
 " For SLIM syntax highlighting support
 Plugin 'slim-template/vim-slim'
 
-" Better Sass support
-Plugin 'cakebaker/scss-syntax.vim'
+" Less highlighting
+Plugin 'groenewege/vim-less'
 
 " For displaying the file tree
 Plugin 'scrooloose/nerdtree'
@@ -32,17 +32,11 @@ Plugin 'tpope/vim-surround'
 " For commenting stuff
 Plugin 'scrooloose/nerdcommenter'
 
-" Run your RSpec tests
-Plugin 'skalnik/vim-vroom'
-
 " Solarized color theme
 Plugin 'altercation/vim-colors-solarized'
 
-" For easy motion
-Plugin 'Lokaltog/vim-easymotion'
-
-" For using ack in Vim
-Plugin 'mileszs/ack.vim'
+" For using ag in Vim
+Plugin 'rking/ag.vim'
 
 " For TextMate-like snippets
 Plugin 'MarcWeber/vim-addon-mw-utils'
@@ -59,16 +53,25 @@ Plugin 'pangloss/vim-javascript'
 " CoffeeScript support for Vim
 Plugin 'kchmck/vim-coffee-script'
 
+" Jade support for Vim
+Plugin 'digitaltoad/vim-jade'
+
+" Indentation helpers
+Plugin 'nathanaelkane/vim-indent-guides'
+
+" Easy motion (moving around document)
+Plugin 'Lokaltog/vim-easymotion'
+
+" Tab autocomplete
+Plugin 'ervandew/supertab'
+
 call vundle#end()
 filetype plugin indent on
 
 filetype plugin on
 
 " Show line numbers
-" set number
-
-" Relative line numbers
-set rnu
+ set number
 
 " Makes text wrap downwards instead of cutting it off
 set display+=lastline
@@ -118,18 +121,21 @@ let mapleader = "\<Space>"
 " Maps : to ;, removing the shift step
 nnoremap ; :
 
+" Copies current file path to the clipboard
+nmap <silent> <leader>cp :let @+ = expand("%")<CR>
+
+" Allows you to find the current file in NERDTree
+nmap <leader>f :NERDTreeFind<CR>
+
 " Enable syntax highlighting
 syntax enable
 
 " Enable delimitMate to autoclose delimiters
 let delimitMate_autoclose = 1
 
-" Use solarized color scheme
-set background=dark
-colorscheme solarized
-let g:solarized_termtrans = 1
-let g:solarized_visibility = "high"
-let g:solarized_contrast = "high"
+" Use molokai color scheme
+colorscheme molokai
+let g:rehash265 = 1
 
 " Automatically reload vimrc once it's saved
 augroup AutoReloadVimRC
@@ -137,8 +143,17 @@ augroup AutoReloadVimRC
       au BufWritePost $MYVIMRC so $MYVIMRC
     augroup END
 
+" Ignore things ending with a tilde
+set wildignore+=*~
+
 " Do a case insensitive ack search by default
 let g:ack_default_options = " -i"
+
+" Ignore some folders and files for CtrlP indexing
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\.git$\|\.yardoc\|public$|log\|tmp$\|node_modules$',
+  \ 'file': '\.so$\|\.dat$|\.DS_Store$'
+  \ }
 
 " Highlights results as you type out a search
 set incsearch
@@ -192,3 +207,9 @@ if !has('gui_running')
   " Make Solarized use 16 colors for Terminal support
   let g:solarized_termcolors=256
 endif
+
+" Automatically set slimbars files to use Slim syntax highlighting
+autocmd BufRead,BufNewFile *.slimbars setlocal filetype=slim
+
+" Lets you copy to osx clipboard
+set clipboard=unnamed
