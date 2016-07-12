@@ -32,17 +32,8 @@ Plugin 'tpope/vim-surround'
 " For commenting stuff
 Plugin 'scrooloose/nerdcommenter'
 
-" Solarized color theme
-Plugin 'altercation/vim-colors-solarized'
-
 " For using ag in Vim
 Plugin 'rking/ag.vim'
-
-" For TextMate-like snippets
-Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'tomtom/tlib_vim'
-Plugin 'garbas/vim-snipmate'
-Plugin 'honza/vim-snippets'
 
 " For automatically closing brackets
 Plugin 'Raimondi/delimitMate'
@@ -50,17 +41,11 @@ Plugin 'Raimondi/delimitMate'
 " Much better Javascript support for Vim
 Plugin 'pangloss/vim-javascript'
 
-" CoffeeScript support for Vim
-Plugin 'kchmck/vim-coffee-script'
-
 " Jade support for Vim
 Plugin 'digitaltoad/vim-jade'
 
 " Indentation helpers
 Plugin 'nathanaelkane/vim-indent-guides'
-
-" Easy motion (moving around document)
-Plugin 'Lokaltog/vim-easymotion'
 
 " Tab autocomplete
 Plugin 'ervandew/supertab'
@@ -101,7 +86,7 @@ set backspace=indent,eol,start
 set backupdir=~/.vim/backup
 
 " Use ack instead of grep
-set grepprg=ack
+set grepprg=Ag
 
 " Maps control-p to searching with ctrl-p
 let g:ctrlp_map = '<c-p>'
@@ -130,9 +115,6 @@ nmap <leader>f :NERDTreeFind<CR>
 " Enable syntax highlighting
 syntax enable
 
-" Enable delimitMate to autoclose delimiters
-let delimitMate_autoclose = 1
-
 " Use molokai color scheme
 colorscheme molokai
 let g:rehash265 = 1
@@ -145,9 +127,6 @@ augroup AutoReloadVimRC
 
 " Ignore things ending with a tilde
 set wildignore+=*~
-
-" Do a case insensitive ack search by default
-let g:ack_default_options = " -i"
 
 " Ignore some folders and files for CtrlP indexing
 let g:ctrlp_custom_ignore = {
@@ -198,15 +177,6 @@ map Q gq
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
 " so that you can undo CTRL-U after inserting a line break.
 inoremap <C-U> <C-G>u<C-U>
-
-" Set Solarized compatibility for the Terminal
-if !has('gui_running')
-  " Compatibility for Terminal
-  let g:solarized_termtrans=1
-
-  " Make Solarized use 16 colors for Terminal support
-  let g:solarized_termcolors=256
-endif
 
 " Automatically set slimbars files to use Slim syntax highlighting
 autocmd BufRead,BufNewFile *.slimbars setlocal filetype=slim
