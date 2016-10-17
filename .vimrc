@@ -41,6 +41,9 @@ Plugin 'Raimondi/delimitMate'
 " Much better Javascript support for Vim
 Plugin 'pangloss/vim-javascript'
 
+" ES6 Syntax Highlighting
+Plugin 'isRuslan/vim-es6'
+
 " Jade support for Vim
 Plugin 'digitaltoad/vim-jade'
 
@@ -90,6 +93,12 @@ set grepprg=Ag
 
 " Maps control-p to searching with ctrl-p
 let g:ctrlp_map = '<c-p>'
+
+" Show hidden files with ctrlp
+let g:ctrlp_show_hidden = 1
+
+" Show hidden files with NERDTree
+let NERDTreeShowHidden = 1
 
 " Maps control-] to moving to previous buffer
 nnoremap <C-]> :bp<cr>
