@@ -85,6 +85,9 @@ nnoremap <C-n> :NERDTreeToggle<CR>
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
+" create all the swapfiles in a tmp directory
+set directory^=$HOME/.vim/tmp//
+
 " create all the backup files in the backup directory
 set backupdir=~/.vim/backup
 
