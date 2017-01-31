@@ -1,0 +1,32 @@
+[alias]
+  co = checkout
+  ci = commit
+  st = status
+  br = branch
+  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+  type = cat-file -t
+  dump = cat-file -p
+  g = grep --extended-regexp --break --heading --line-number
+
+  # set current branch to the upstream, and creates it on the remote
+  shove = "!f() { H=$(git current-branch) && git push -u origin $H; }; f"
+
+  # pulls from the same branch on origin
+  pull-same = "!f() { H=$(git current-branch) && git pull origin $H; }; f"
+
+  ps = "!f() { git pull-same; }; f"
+
+  # shows the current git branch
+  current-branch = rev-parse --symbolic-full-name --abbrev-ref HEAD
+[user]
+	name = Ricky Rizal Zein
+	email = rrzein@gmail.com
+[core]
+	editor = vim
+  excludesfile = ~/.gitignore_global
+[grep]
+  break = true
+  heading = true
+  lineNumber = true
+[push]
+  default = simple
