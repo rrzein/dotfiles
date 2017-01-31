@@ -53,6 +53,9 @@ Plugin 'nathanaelkane/vim-indent-guides'
 " Tab autocomplete
 Plugin 'ervandew/supertab'
 
+" CoffeeScript Syntax Highlighting
+Plugin 'kchmck/vim-coffee-script'
+
 call vundle#end()
 filetype plugin indent on
 
@@ -86,10 +89,12 @@ nnoremap <C-n> :NERDTreeToggle<CR>
 set backspace=indent,eol,start
 
 " create all the swapfiles in a tmp directory
-set directory^=$HOME/.vim/tmp//
+set directory=~/.vim/tmp//
 
 " create all the backup files in the backup directory
-set backupdir=~/.vim/backup
+set backupdir=~/.vim/backup//
+
+set undodir=~/.vim/undo//
 
 " Use ack instead of grep
 set grepprg=Ag
