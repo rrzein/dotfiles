@@ -20,7 +20,7 @@ Plugin 'scrooloose/syntastic'
 " For SLIM syntax highlighting support
 Plugin 'slim-template/vim-slim'
 
-" Less highlighting
+" LESS syntax highlighting
 Plugin 'groenewege/vim-less'
 
 " For displaying the file tree
@@ -44,6 +44,9 @@ Plugin 'pangloss/vim-javascript'
 " ES6 Syntax Highlighting
 Plugin 'isRuslan/vim-es6'
 
+" Highlighting support for JSX
+Plugin 'mxw/vim-jsx'
+
 " Jade support for Vim
 Plugin 'digitaltoad/vim-jade'
 
@@ -55,6 +58,15 @@ Plugin 'ervandew/supertab'
 
 " CoffeeScript Syntax Highlighting
 Plugin 'kchmck/vim-coffee-script'
+
+" Handlebars Syntax Highlighting
+Plugin 'nono/vim-handlebars'
+
+" Elixir Syntax Highlighting
+Plugin 'elixir-lang/vim-elixir'
+
+" Thoughtbot's RSpec Plugin
+Plugin 'thoughtbot/vim-rspec'
 
 call vundle#end()
 filetype plugin indent on
@@ -132,6 +144,12 @@ nmap <leader>f :NERDTreeFind<CR>
 " Enable syntax highlighting
 syntax enable
 
+" Enable syntax highlighting for flow
+let g:javascript_plugin_flow = 1
+
+" Allow JSX highlighting for non .jsx files
+let g:jsx_ext_required = 0
+
 " Use molokai color scheme
 colorscheme molokai
 let g:rehash265 = 1
@@ -150,6 +168,8 @@ let g:ctrlp_custom_ignore = {
   \ 'dir':  '\.git$\|\.yardoc\|public$|log\|tmp$\|node_modules$',
   \ 'file': '\.so$\|\.dat$|\.DS_Store$'
   \ }
+
+let g:ctrlp_max_files = 0
 
 " Highlights results as you type out a search
 set incsearch
@@ -200,3 +220,12 @@ autocmd BufRead,BufNewFile *.slimbars setlocal filetype=slim
 
 " Lets you copy to osx clipboard
 set clipboard=unnamed
+
+" Run RSpec in spring
+let g:rspec_command = "!pilot exec intercom spring rspec {spec}"
+
+" RSpec.vim mappings
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
