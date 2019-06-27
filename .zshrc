@@ -14,18 +14,7 @@ fi
 # Load nvm
 export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
-# Set Intercom User
-export INTERCOM_USER=ricky
-export BILLING_SERVICE_AVAILABLE=true
-
-# Skip to the scenic directory
-alias scenic="cd ~/code/scenic/"
-
-# Add pilot path
-export PATH=$HOME/.pilot/shims:$HOME/.pilot/bin:$PATH
-eval $(pilot env)
-
-export PATH="$HOME/.yarn/bin:$PATH"
+export PATH="$HOME/.yarn/bin:$PATH:$HOME/.composer/vendor/bin"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
@@ -37,6 +26,60 @@ function pr () {
   open https://github.com/$repo/pull/new/$branch
 }
 
+# Kill port
+function killport() {
+  lsof -n -i:$1 | grep LISTEN | awk '{print $2}' | xargs kill
+}
+
+# Git-specific commands
 alias gbm='git branch  --merged master'
 alias gbnm='git branch --no-merged'
 alias gbdm='git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d'
+alias gpro='git pull --rebase origin master'
+
+function gitdelgone() {
+  git fetch -p && for branch in `git branch -vv | grep ': gone]' | awk '{print $1}'`; do git branch -D $branch; done
+}
+
+alias eyes='git shove && pr'
+
+alias kn='until killall node | grep -m 1 "No matching processes belonging to you were found"; do sleep 1 ; done'
+
+# Personal commands
+alias code='cd ~/code'
+alias addkeys='ssh-add -K ~/.ssh/id_rsa'
+
+alias did="vim +'normal Go' +'r!date' ~/did.txt"
+
+# mkdir and cd into directory
+function mcd {
+  if [ ! -n "$1" ]; then
+    echo "Enter a directory name"
+  elif [ -d $1 ]; then
+    echo "\`$1' already exists"
+  else
+    mkdir $1 && cd $1
+  fi
+}
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+## The next line updates PATH for the Google Cloud SDK.
+#if [ -f '/Users/ricky/Downloads/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/ricky/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+## The next line enables shell command completion for gcloud.
+#if [ -f '/Users/ricky/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/ricky/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+alias k=kubectl
+
+function latk() {
+  lattice-kubectl $@
+}
+if [ $commands[kubectl] ]; then
+  source <(kubectl completion zsh)
+fi
+
+if type nvim > /dev/null 2>&1; then
+  alias vim='nvim'
+fi

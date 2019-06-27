@@ -1,74 +1,84 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" Vundle stuff
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" Plugs will be downloaded under the specified directory.
+call plug#begin('~/.vim/plugged')
 
 " Let Vundle manage plugins
-Plugin 'gmarik/Vundle.vim'
+Plug 'gmarik/Vundle.vim'
 
 " Git wrapper for Vim
-Plugin 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 
 " Fuzzy search
-Plugin 'kien/ctrlp.vim'
-
-" Syntax checking plugin
-Plugin 'scrooloose/syntastic'
-
-" For SLIM syntax highlighting support
-Plugin 'slim-template/vim-slim'
-
-" LESS syntax highlighting
-Plugin 'groenewege/vim-less'
+Plug 'kien/ctrlp.vim'
 
 " For displaying the file tree
-Plugin 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree'
 
 " For working with delimiters
-Plugin 'tpope/vim-surround'
+Plug 'tpope/vim-surround'
 
 " For commenting stuff
-Plugin 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdcommenter'
 
 " For using ag in Vim
-Plugin 'rking/ag.vim'
+Plug 'rking/ag.vim'
 
 " For automatically closing brackets
-Plugin 'Raimondi/delimitMate'
+Plug 'Raimondi/delimitMate'
 
 " Much better Javascript support for Vim
-Plugin 'pangloss/vim-javascript'
+Plug 'pangloss/vim-javascript'
 
 " ES6 Syntax Highlighting
-Plugin 'isRuslan/vim-es6'
+Plug 'isRuslan/vim-es6'
 
 " Highlighting support for JSX
-Plugin 'mxw/vim-jsx'
-
-" Jade support for Vim
-Plugin 'digitaltoad/vim-jade'
+Plug 'mxw/vim-jsx'
 
 " Indentation helpers
-Plugin 'nathanaelkane/vim-indent-guides'
+Plug 'nathanaelkane/vim-indent-guides'
 
 " Tab autocomplete
-Plugin 'ervandew/supertab'
+Plug 'ervandew/supertab'
 
-" CoffeeScript Syntax Highlighting
-Plugin 'kchmck/vim-coffee-script'
+" Async Lint Engine
+Plug 'w0rp/ale'
 
-" Handlebars Syntax Highlighting
-Plugin 'nono/vim-handlebars'
+" Fast HTML and CSS pluging for Vim
+Plug 'mattn/emmet-vim'
 
-" Elixir Syntax Highlighting
-Plugin 'elixir-lang/vim-elixir'
+" Vim Plug for Blade
+Plug 'jwalton512/vim-blade'
 
-" Thoughtbot's RSpec Plugin
-Plugin 'thoughtbot/vim-rspec'
+" Airline
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
-call vundle#end()
+" ReasonML support
+Plug 'reasonml-editor/vim-reason-plus'
+"
+" for neovim
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+endif
+
+" LanguageClient support
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+
+" nice to have
+Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
+
+" (Optional) Multi-entry selection UI.
+Plug 'junegunn/fzf'
+
+" List ends here. Plugs become visible to Vim after this call.
+call plug#end()
+
 filetype plugin indent on
 
 filetype plugin on
@@ -111,6 +121,12 @@ set undodir=~/.vim/undo//
 " Use ack instead of grep
 set grepprg=Ag
 
+"  Default to new right window when vertical splitting
+set splitright
+
+" Default to new bottom window when horizontal splitting
+set splitbelow
+
 " Maps control-p to searching with ctrl-p
 let g:ctrlp_map = '<c-p>'
 
@@ -129,20 +145,35 @@ nnoremap <C-\> :bn<cr>
 " Maps jj to leaving insert mode (press twice quickly)
 imap jj <ESC>
 
+" Maps jk to leaving insert mode (press twice quickly)
+imap jk <ESC>
+
 " Maps leader (\) to space
 let mapleader = "\<Space>"
 
 " Maps : to ;, removing the shift step
 nnoremap ; :
 
+" Maps leader ; to viewing buffers and going to new buffer
+nnoremap <leader>; :ls<CR>:b<Space>
+
 " Copies current file path to the clipboard
 nmap <silent> <leader>cp :let @+ = expand("%")<CR>
+
+" Enters the current highlighted term into a find and replace
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+
+" Enters a search command for the current highlighted term
+vnoremap <C-f> "hy:Ag <C-r>h
 
 " Allows you to find the current file in NERDTree
 nmap <leader>f :NERDTreeFind<CR>
 
 " Enable syntax highlighting
 syntax enable
+
+" Display buffers in airline if only one tab open
+let g:airline#extensions#tabline#enabled = 1
 
 " Enable syntax highlighting for flow
 let g:javascript_plugin_flow = 1
@@ -153,6 +184,9 @@ let g:jsx_ext_required = 0
 " Use molokai color scheme
 colorscheme molokai
 let g:rehash265 = 1
+
+" Use badwolf theme for airline
+let g:airline_theme='badwolf'
 
 " Automatically reload vimrc once it's saved
 augroup AutoReloadVimRC
@@ -166,7 +200,7 @@ set wildignore+=*~
 " Ignore some folders and files for CtrlP indexing
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\.git$\|\.yardoc\|public$|log\|tmp$\|node_modules$',
-  \ 'file': '\.so$\|\.dat$|\.DS_Store$'
+  \ 'file': '\.so$\|\.dat$|\.DS_Store$|\.js.map$|\.graphql\.js$'
   \ }
 
 let g:ctrlp_max_files = 0
@@ -179,6 +213,9 @@ set hlsearch
 " Lets you search using '/' ignoring case. Smart enough to see caps
 set ignorecase
 set smartcase
+
+" Unsaved changes causes file to be hidden instead of closed
+set hidden
 
 " Type // to clear search highlight
 map //  :nohlsearch<CR>; echo 'Search highlight cleared' <CR>
@@ -215,17 +252,54 @@ map Q gq
 " so that you can undo CTRL-U after inserting a line break.
 inoremap <C-U> <C-G>u<C-U>
 
-" Automatically set slimbars files to use Slim syntax highlighting
-autocmd BufRead,BufNewFile *.slimbars setlocal filetype=slim
-
 " Lets you copy to osx clipboard
 set clipboard=unnamed
 
-" Run RSpec in spring
-let g:rspec_command = "!pilot exec intercom spring rspec {spec}"
+" Ignore the typescript ale linter
+let g:ale_linters = {
+      \ 'javascript': ['eslint', 'flow', 'flow-language-server', 'jshint', 'standard']
+\}
 
-" RSpec.vim mappings
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
+" After this is configured, :ALEFix will try and fix your JS code with ESLint.
+let g:ale_fixers = {
+\   'javascript': ['eslint'],
+\}
+
+" Set this setting in vimrc if you want to fix files automatically on save.
+" This is off by default.
+let g:ale_fix_on_save = 1
+
+let @r = "\/* @flow */\n
+\import * as React from 'react';\n
+\\n
+\type Props = {};\n
+\\n
+\class ComponentName extends React.Component<Props> {\n
+\render() {\n
+\\n
+\}\n
+\}\n
+\\n
+\export default ComponentName;"
+
+" LanguageClient defaults
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+" Or map each action separately
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> gf :call LanguageClient#textDocument_formatting()<cr>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+
+
+let g:LanguageClient_serverCommands = {
+    \ 'reason': ['/Users/ricky/.vim/reason-language-server.exe'],
+    \ }
+
+" enable autocomplete
+let g:deoplete#enable_at_startup = 1
+
+" Make supertab work nicely with deoplete (fix tabbing being backward)
+let g:SuperTabDefaultCompletionType = "<c-n>"
+
+" [TEMP] Map leader-m-m to convert a Relay component file to Relay compat
+nnoremap <leader>mm :!jscodeshift -t ~/Code/relay-codemod/transforms/migrate-to-modern-1.0.js %:p<cr>
