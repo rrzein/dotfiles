@@ -58,7 +58,10 @@ Plug 'vim-airline/vim-airline-themes'
 
 " ReasonML support
 Plug 'reasonml-editor/vim-reason-plus'
-"
+
+"Smooth scroll
+Plug 'terryma/vim-smooth-scroll'
+
 " for neovim
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -230,6 +233,12 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+
+" Smooth scroll
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
+noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 
 if has("vms")
   set nobackup		" do not keep a backup file, use versions instead

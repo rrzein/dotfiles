@@ -11,11 +11,6 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
-# Load nvm
-export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-
-export PATH="$HOME/.yarn/bin:$PATH:$HOME/.composer/vendor/bin"
-
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # Creates PR for your current branch and opens it in a browser window
@@ -61,24 +56,6 @@ function mcd {
     mkdir $1 && cd $1
   fi
 }
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
-
-## The next line updates PATH for the Google Cloud SDK.
-#if [ -f '/Users/ricky/Downloads/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/ricky/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-
-## The next line enables shell command completion for gcloud.
-#if [ -f '/Users/ricky/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/ricky/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
-
-alias k=kubectl
-
-function latk() {
-  lattice-kubectl $@
-}
-if [ $commands[kubectl] ]; then
-  source <(kubectl completion zsh)
-fi
 
 if type nvim > /dev/null 2>&1; then
   alias vim='nvim'
