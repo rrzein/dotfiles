@@ -4,14 +4,8 @@ filetype off                  " required
 " Plugs will be downloaded under the specified directory.
 call plug#begin('~/.vim/plugged')
 
-" Let Vundle manage plugins
-Plug 'gmarik/Vundle.vim'
-
 " Git wrapper for Vim
 Plug 'tpope/vim-fugitive'
-
-" Fuzzy search
-Plug 'kien/ctrlp.vim'
 
 " For displaying the file tree
 Plug 'scrooloose/nerdtree'
@@ -37,47 +31,25 @@ Plug 'isRuslan/vim-es6'
 " Highlighting support for JSX
 Plug 'mxw/vim-jsx'
 
-" Indentation helpers
-Plug 'nathanaelkane/vim-indent-guides'
-
-" Tab autocomplete
-Plug 'ervandew/supertab'
-
-" Async Lint Engine
-Plug 'w0rp/ale'
-
-" Fast HTML and CSS pluging for Vim
-Plug 'mattn/emmet-vim'
-
-" Vim Plug for Blade
-Plug 'jwalton512/vim-blade'
-
 " Airline
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-" ReasonML support
-Plug 'reasonml-editor/vim-reason-plus'
-
 "Smooth scroll
 Plug 'terryma/vim-smooth-scroll'
 
-" for neovim
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-endif
+"Plugin to asynchronously run programs
+Plug 'neomake/neomake'
 
-" LanguageClient support
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+" Fuzzy file finder
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 
-" nice to have
-Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
+" Dracula color theme for Vim
+Plug 'dracula/vim'
 
-" (Optional) Multi-entry selection UI.
-Plug 'junegunn/fzf'
+" Install CoC Language Server
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
 
 " List ends here. Plugs become visible to Vim after this call.
 call plug#end()
@@ -107,9 +79,6 @@ set textwidth=0 tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 " Auto reload files that may have been modified outside of Vim
 set autoread
 
-" Map Control+n to open up NERDTree
-nnoremap <C-n> :NERDTreeToggle<CR>
-
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
@@ -130,14 +99,65 @@ set splitright
 " Default to new bottom window when horizontal splitting
 set splitbelow
 
-" Maps control-p to searching with ctrl-p
-let g:ctrlp_map = '<c-p>'
-
-" Show hidden files with ctrlp
-let g:ctrlp_show_hidden = 1
-
+" *** NERDTree Settings ***
 " Show hidden files with NERDTree
 let NERDTreeShowHidden = 1
+
+" Automaticaly close nvim if NERDTree is only thing left open
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" Map Control+n to open up NERDTree
+nnoremap <C-n> :NERDTreeToggle<CR>
+
+" *** END NERDTree Settings ***
+
+" *** FZF Settings ***
+nnoremap <C-p> :FZF<CR>
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-s': 'split',
+  \ 'ctrl-v': 'vsplit'
+  \}
+
+let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+" *** END FZF Settings ***
+
+" *** COC MAPPINGS ***
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\\s'
+endfunction
+
+" Insert mode, Ctrl-space: Refresh Coc suggestions
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+" Insert mode, tab: If suggestions are visible, go to next suggestion.
+" If space behind is empty insert tab
+" Otherwise refresh coc suggestions
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+" Insert mode, enter: If suggestions are visible, use selected suggestion
+" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+" *** END COC MAPPINGS ***
+
+" Run NeoMake on read and write operations
+autocmd! BufReadPost,BufWritePost * Neomake
+
+let g:neomake_serialize = 1
+let g:neomake_serialize_abort_on_error = 1
 
 " Maps control-] to moving to previous buffer
 nnoremap <C-]> :bp<cr>
@@ -184,12 +204,14 @@ let g:javascript_plugin_flow = 1
 " Allow JSX highlighting for non .jsx files
 let g:jsx_ext_required = 0
 
-" Use molokai color scheme
-colorscheme molokai
-let g:rehash265 = 1
+if (has("termguicolors"))
+ set termguicolors
+endif
+syntax enable
+colorscheme dracula
 
-" Use badwolf theme for airline
-let g:airline_theme='badwolf'
+" Use dracula theme for airline
+let g:airline_theme='dracula'
 
 " Automatically reload vimrc once it's saved
 augroup AutoReloadVimRC
@@ -199,14 +221,6 @@ augroup AutoReloadVimRC
 
 " Ignore things ending with a tilde
 set wildignore+=*~
-
-" Ignore some folders and files for CtrlP indexing
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\.git$\|\.yardoc\|public$|log\|tmp$\|node_modules$',
-  \ 'file': '\.so$\|\.dat$|\.DS_Store$|\.js.map$|\.graphql\.js$'
-  \ }
-
-let g:ctrlp_max_files = 0
 
 " Highlights results as you type out a search
 set incsearch
@@ -263,52 +277,3 @@ inoremap <C-U> <C-G>u<C-U>
 
 " Lets you copy to osx clipboard
 set clipboard=unnamed
-
-" Ignore the typescript ale linter
-let g:ale_linters = {
-      \ 'javascript': ['eslint', 'flow', 'flow-language-server', 'jshint', 'standard']
-\}
-
-" After this is configured, :ALEFix will try and fix your JS code with ESLint.
-let g:ale_fixers = {
-\   'javascript': ['eslint'],
-\}
-
-" Set this setting in vimrc if you want to fix files automatically on save.
-" This is off by default.
-let g:ale_fix_on_save = 1
-
-let @r = "\/* @flow */\n
-\import * as React from 'react';\n
-\\n
-\type Props = {};\n
-\\n
-\class ComponentName extends React.Component<Props> {\n
-\render() {\n
-\\n
-\}\n
-\}\n
-\\n
-\export default ComponentName;"
-
-" LanguageClient defaults
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-" Or map each action separately
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> gf :call LanguageClient#textDocument_formatting()<cr>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-
-
-let g:LanguageClient_serverCommands = {
-    \ 'reason': ['/Users/ricky/.vim/reason-language-server.exe'],
-    \ }
-
-" enable autocomplete
-let g:deoplete#enable_at_startup = 1
-
-" Make supertab work nicely with deoplete (fix tabbing being backward)
-let g:SuperTabDefaultCompletionType = "<c-n>"
-
-" [TEMP] Map leader-m-m to convert a Relay component file to Relay compat
-nnoremap <leader>mm :!jscodeshift -t ~/Code/relay-codemod/transforms/migrate-to-modern-1.0.js %:p<cr>
