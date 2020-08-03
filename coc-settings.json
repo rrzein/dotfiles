@@ -1,0 +1,32 @@
+{
+  // Require .prettierrc
+  "prettier.requireConfig": true,
+
+  // Run prettier (and others)
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "json",
+    "markdown",
+    "Markdown",
+    "javascript",
+    "javascriptreact"
+  ],
+
+  "eslint.nodePath": "${workspaceFolder}/node_modules",
+  // Autofix eslint errors on save. This will include prettyifying the file
+  "eslint.autoFixOnSave": true,
+
+  "languageserver": {
+    // Make Coc understand flow
+    "flow": {
+      "command": "${workspaceFolder}/node_modules/.bin/flow",
+      "args": ["lsp"],
+      "filetypes": ["javascript", "javascriptreact"],
+      "initializationOptions": {},
+      "requireRootPattern": true,
+      "settings": {},
+      "rootPatterns": [".flowconfig"]
+    }
+  },
+  "coc.preferences.extensionUpdateCheck": "never"
+}
