@@ -190,6 +190,10 @@ nnoremap <leader>; :ls<CR>:b<Space>
 " Copies current file path to the clipboard
 nmap <silent> <leader>cp :let @+ = expand("%")<CR>
 
+" SELF NOTE: Do we want this?
+" Allow pasting without copying overwritten contents to the register
+vnoremap p "_dP
+
 " Enters the current highlighted term into a find and replace
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 
