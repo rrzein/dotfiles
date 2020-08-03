@@ -38,9 +38,6 @@ Plug 'vim-airline/vim-airline-themes'
 "Smooth scroll
 Plug 'terryma/vim-smooth-scroll'
 
-"Plugin to asynchronously run programs
-Plug 'neomake/neomake'
-
 " Fuzzy file finder
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -168,12 +165,6 @@ else
   inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
 " *** END COC MAPPINGS ***
-
-" Run NeoMake on read and write operations
-autocmd! BufReadPost,BufWritePost * Neomake
-
-let g:neomake_serialize = 1
-let g:neomake_serialize_abort_on_error = 1
 
 " Maps control-] to moving to previous buffer
 nnoremap <C-]> :bp<cr>
