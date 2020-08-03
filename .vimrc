@@ -49,7 +49,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'dracula/vim'
 
 " Install CoC Language Server
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 
 " List ends here. Plugs become visible to Vim after this call.
 call plug#end()
