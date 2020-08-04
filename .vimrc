@@ -136,17 +136,17 @@ let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 " *** END FZF Settings ***
 
 " *** COC MAPPINGS ***
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\\s'
-endfunction
-
 " Insert mode, Ctrl-space: Refresh Coc suggestions
 if has('nvim')
   inoremap <silent><expr> <c-space> coc#refresh()
 else
   inoremap <silent><expr> <c-@> coc#refresh()
 endif
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
 " Insert mode, tab: If suggestions are visible, go to next suggestion.
 " If space behind is empty insert tab
@@ -155,6 +155,7 @@ inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
+
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 " Insert mode, enter: If suggestions are visible, use selected suggestion
@@ -167,10 +168,10 @@ endif
 " *** END COC MAPPINGS ***
 
 " Maps control-] to moving to previous buffer
-nnoremap <C-[> :bp<cr>
+nnoremap <C-]> :bp<cr>
 
 " Maps control-\ to moving to next buffer
-nnoremap <C-]> :bn<cr>
+nnoremap <C-\> :bn<cr>
 
 " Maps jj to leaving insert mode (press twice quickly)
 imap jj <ESC>
