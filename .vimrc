@@ -167,10 +167,10 @@ endif
 " *** END COC MAPPINGS ***
 
 " Maps control-] to moving to previous buffer
-nnoremap <C-]> :bp<cr>
+nnoremap <C-[> :bp<cr>
 
 " Maps control-\ to moving to next buffer
-nnoremap <C-\> :bn<cr>
+nnoremap <C-]> :bn<cr>
 
 " Maps jj to leaving insert mode (press twice quickly)
 imap jj <ESC>
