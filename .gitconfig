@@ -2,7 +2,7 @@
   co = checkout
   ci = commit
   st = status
-  br = branch -v --sort=committerdate
+  br = branch -v --sort=-committerdate
   hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
   type = cat-file -t
   dump = cat-file -p
