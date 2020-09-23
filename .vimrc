@@ -31,6 +31,10 @@ Plug 'isRuslan/vim-es6'
 " Highlighting support for JSX
 Plug 'mxw/vim-jsx'
 
+" Highlighting support for TSX
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+
 " Airline
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -215,6 +219,9 @@ let g:javascript_plugin_flow = 1
 
 " Allow JSX highlighting for non .jsx files
 let g:jsx_ext_required = 0
+
+" set filetypes as typescript.tsx
+autocmd BufNewFile,BufRead *.tsx set filetype=typescript.tsx
 
 if (has("termguicolors"))
  set termguicolors
