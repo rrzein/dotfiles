@@ -9,7 +9,9 @@
     "markdown",
     "Markdown",
     "javascript",
-    "javascriptreact"
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
   ],
 
   "eslint.nodePath": "${workspaceFolder}/node_modules",
