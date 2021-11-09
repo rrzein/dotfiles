@@ -15,7 +15,7 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 # Creates PR for your current branch and opens it in a browser window
 function pr () {
-  local repo=`git remote -v | grep -m 1 "(push)" | sed -e "s/.*github.com[:/]\(.*\)\.git.*/\1/"`
+  local repo=`git remote -v | grep -m 1 "origin" | sed -e "s/.*github.com[:/]\(.*\)\.git.*/\1/"`
   local branch=`git name-rev --name-only HEAD`
   echo "... creating pull request for branch \"$branch\" in \"$repo\""
   open https://github.com/$repo/pull/new/$branch
@@ -41,7 +41,12 @@ alias eyes='git shove && pr'
 alias kn='until killall node | grep -m 1 "No matching processes belonging to you were found"; do sleep 1 ; done'
 
 # Personal commands
+alias ben='cd ~/bentwo'
+alias pay='cd ~/paydayio'
+alias inj='cd ~/bento-inject'
+alias b1='cd ~/bento'
 alias code='cd ~/code'
+alias lat='cd ~/code/lattice'
 alias addkeys='ssh-add -K ~/.ssh/id_rsa'
 
 alias did="vim +'normal Go' +'r!date' ~/did.txt"
@@ -68,3 +73,12 @@ fi
 
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+alias pg_start="launchctl load ''"
+alias pg_stop="launchctl unload ''"
+
+alias ngrok="/Applications/ngrok"
+alias trueaccord="ngrok http -hostname=trueaccord.trybento.co 5000"
+alias miso-ngrok="ngrok http -hostname=bento-miso.ngrok.io 5000"
+alias udon-ngrok="ngrok http -hostname=bento-udon.ngrok.io 5100"
+
+alias heroku-deploy="git push heroku-udon master && git push heroku-miso master"

@@ -9,7 +9,8 @@
   g = grep --extended-regexp --break --heading --line-number
 
   cb = checkout -b
-  get = pull origin master
+  get = pull origin main
+  gd = pull origin develop
 
   # set current branch to the upstream, and creates it on the remote
   shove = "!f() { H=$(git current-branch) && git push -u origin $H; }; f"
@@ -25,7 +26,7 @@
 	name = Ricky Rizal Zein
 	email = rrzein@gmail.com
 [core]
-	editor = vim
+	editor = nvim
   excludesfile = ~/.gitignore_global
 [grep]
   break = true
